@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import NewsBanner from '../NewsBanner/NewsBanner';
 import { getNews } from '../../api/apiNews';
+import NewsList from '../NewsList/NewsList';
 
 const Main = () => {
   const [news, setNews] = useState([]);
@@ -17,7 +18,12 @@ const Main = () => {
     fetchNews();
   }, []);
 
-  return <>{news.length > 0 ? <NewsBanner item={news[0]} /> : null}</>;
+  return (
+    <>
+      {news.length > 0 ? <NewsBanner item={news[0]} /> : null}
+      <NewsList news={news} />
+    </>
+  );
 };
 
 export default Main;
