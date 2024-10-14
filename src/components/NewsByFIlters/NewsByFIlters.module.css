@@ -1,0 +1,7 @@
+.section {
+  display: flex;
+  box-sizing: border-box;
+  overflow: hidden;
+  flex-direction: column;
+  gap: 10px;
+}
