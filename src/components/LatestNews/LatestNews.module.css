@@ -4,6 +4,11 @@
   overflow: hidden;
   flex-direction: column;
   gap: 10px;
-  max-height: 1200px;
-  overflow-y: auto;
+}
+
+@media (min-width: 769px) {
+  .section {
+    max-height: 1200px;
+    overflow-y: auto;
+  }
 }

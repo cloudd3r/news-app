@@ -12,6 +12,7 @@ import { PAGE_SIZE } from '../../constants/constants';
 import { TOTAL_PAGES } from '../../constants/constants';
 import { useFetch } from '../../helpers/hooks/useFetch';
 import { getCategories } from '../../api/apiNews';
+import Slider from '../Slider/Slider';
 
 const NewsByFIlters = () => {
   const { filters, changeFilters } = useFilters({
@@ -49,13 +50,15 @@ const NewsByFIlters = () => {
   return (
     <section className={styles.section}>
       {dataCategories ? (
-        <Categories
-          categories={dataCategories.categories}
-          selectedCategory={filters.category}
-          setSelectedCategory={(category) =>
-            changeFilters('category', category)
-          }
-        />
+        <Slider>
+          <Categories
+            categories={dataCategories.categories}
+            selectedCategory={filters.category}
+            setSelectedCategory={(category) =>
+              changeFilters('category', category)
+            }
+          />
+        </Slider>
       ) : null}
 
       <Search
