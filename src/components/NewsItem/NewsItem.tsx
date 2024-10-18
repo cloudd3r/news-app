@@ -1,7 +1,12 @@
 import { formatDateAgo } from '../../helpers/formatDateAgo';
+import { INews } from '../../interfaces';
 import styles from './NewsItem.module.css';
 
-const NewsItem = ({ item }) => {
+interface Props {
+  item: INews;
+}
+
+const NewsItem = ({ item }: Props) => {
   const { image, title, published, author } = item;
   return (
     <ul className={styles.newsItem}>

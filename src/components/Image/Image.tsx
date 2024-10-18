@@ -1,6 +1,10 @@
 import styles from './Image.module.css';
 
-const Image = ({ image }) => {
+interface Props {
+  image: string;
+}
+
+const Image = ({ image }: Props) => {
   return (
     <div className={styles.wrapper}>
       {image !== 'None' ? (

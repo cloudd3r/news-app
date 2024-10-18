@@ -1,8 +1,13 @@
 import { formatDateAgo } from '../../helpers/formatDateAgo';
+import { INews } from '../../interfaces';
 import Image from '../Image/Image';
 import styles from './NewsBanner.module.css';
 
-const NewsBanner = ({ item }) => {
+interface Props {
+  item: INews;
+}
+
+const NewsBanner = ({ item }: Props) => {
   const { image, title, published, author } = item;
   return (
     <div className={styles.wrapper}>

@@ -13,6 +13,11 @@ import { TOTAL_PAGES } from '../../constants/constants';
 import { useFetch } from '../../helpers/hooks/useFetch';
 import { getCategories } from '../../api/apiNews';
 import Slider from '../Slider/Slider';
+import {
+  CategoriesApiResponse,
+  NewsApiResponse,
+  ParamsType,
+} from '../../interfaces';
 
 const NewsByFIlters = () => {
   const { filters, changeFilters } = useFilters({
@@ -24,12 +29,14 @@ const NewsByFIlters = () => {
 
   const debauncedKeywords = useDebaunce(filters.keywords, 1500);
 
-  const { data, isLoading } = useFetch(getNews, {
+  const { data, isLoading } = useFetch<NewsApiResponse, ParamsType>(getNews, {
     ...filters,
     keywords: debauncedKeywords,
   });
 
-  const { data: dataCategories } = useFetch(getCategories);
+  const { data: dataCategories } = useFetch<CategoriesApiResponse, null>(
+    getCategories
+  );
 
   const handleNextPage = () => {
     if (filters.page_number < TOTAL_PAGES) {
@@ -43,7 +50,7 @@ const NewsByFIlters = () => {
     }
   };
 
-  const handlePageNumber = (pageNumber) => {
+  const handlePageNumber = (pageNumber: number) => {
     changeFilters('page_number', pageNumber);
   };
 
