@@ -13,3 +13,24 @@
   flex-direction: column;
   gap: 20px;
 }
+
+.container.dark {
+  background-color: #23272f;
+}
+
+.container.light {
+  background-color: white;
+}
+
+.container.dark p,
+.container.dark h1,
+.container.dark h3,
+.container.dark h4 {
+  color: white;
+}
+
+.container.light p,
+.container.light h1,
+.container.light h3 {
+  color: #23272f;
+}
