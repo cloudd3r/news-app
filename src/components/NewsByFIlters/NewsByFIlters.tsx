@@ -5,53 +5,48 @@ import Search from '../Search/Search';
 import styles from './NewsByFIlters.module.css';
 
 import { useDebaunce } from '../../helpers/hooks/useDebaunce';
-import { useFilters } from '../../helpers/hooks/useFilters';
 
-import { getNews } from '../../api/apiNews';
-import { PAGE_SIZE } from '../../constants/constants';
 import { TOTAL_PAGES } from '../../constants/constants';
-import { useFetch } from '../../helpers/hooks/useFetch';
-import { getCategories } from '../../api/apiNews';
 import Slider from '../Slider/Slider';
 import {
-  CategoriesApiResponse,
-  NewsApiResponse,
-  ParamsType,
-} from '../../interfaces';
+  useGetCategoriesQuery,
+  useGetNewsQuery,
+} from '../../store/services/newsApi';
+import { useAppDispatch, useAppSelector } from '../../store';
+import { setFIlters } from '../../store/slices/newsSlice';
 
 const NewsByFIlters = () => {
-  const { filters, changeFilters } = useFilters({
-    page_number: 1,
-    page_size: PAGE_SIZE,
-    category: null,
-    keywords: '',
-  });
+  const dispatch = useAppDispatch();
+
+  const filters = useAppSelector((state) => state.news.filters);
 
   const debauncedKeywords = useDebaunce(filters.keywords, 1500);
 
-  const { data, isLoading } = useFetch<NewsApiResponse, ParamsType>(getNews, {
+  const { data, isLoading } = useGetNewsQuery({
     ...filters,
     keywords: debauncedKeywords,
   });
 
-  const { data: dataCategories } = useFetch<CategoriesApiResponse, null>(
-    getCategories
-  );
+  const { data: dataCategories } = useGetCategoriesQuery(null);
 
   const handleNextPage = () => {
     if (filters.page_number < TOTAL_PAGES) {
-      changeFilters('page_number', filters.page_number + 1);
+      dispatch(
+        setFIlters({ key: 'page_number', value: filters.page_number + 1 })
+      );
     }
   };
 
   const handlePreviousPage = () => {
     if (filters.page_number > 1) {
-      changeFilters('page_number', filters.page_number - 1);
+      dispatch(
+        setFIlters({ key: 'page_number', value: filters.page_number - 1 })
+      );
     }
   };
 
   const handlePageNumber = (pageNumber: number) => {
-    changeFilters('page_number', pageNumber);
+    dispatch(setFIlters({ key: 'page_number', value: pageNumber }));
   };
 
   return (
@@ -62,7 +57,7 @@ const NewsByFIlters = () => {
             categories={dataCategories.categories}
             selectedCategory={filters.category}
             setSelectedCategory={(category) =>
-              changeFilters('category', category)
+              dispatch(setFIlters({ key: 'category', value: category }))
             }
           />
         </Slider>
@@ -70,7 +65,9 @@ const NewsByFIlters = () => {
 
       <Search
         keywords={filters.keywords}
-        setKeywords={(keywords) => changeFilters('keywords', keywords)}
+        setKeywords={(keywords) =>
+          dispatch(setFIlters({ key: 'keywords', value: keywords }))
+        }
       />
 
       <PaginationWrapper
